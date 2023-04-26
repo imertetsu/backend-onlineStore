@@ -6,7 +6,8 @@ const {logErrors, errorHandler, boomErrorHandler} = require('./middlewares/error
 //const randomName = faker.name.findName();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
 
 //const whiteList = ['http://localhost:8080', 'http://127.0.0.1:5500', 'http://localhost:5500'];
 /*const options = {
@@ -35,8 +36,9 @@ app.use(boomErrorHandler);
 app.use(errorHandler);
 
 //--------------------------------------------------------------------------
-app.listen(port, () =>{
+/*app.listen(port, () =>{
   console.log("mi port " + port);
-});
+});*/
 
+app.listen(port, () => console.log(`mi port ${port}`));
 
