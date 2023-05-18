@@ -1,11 +1,17 @@
 const {faker} = require('@faker-js/faker');
 const boom = require('boom');
 
+const pool = require('../libs/postgres.pool');
+
+const sequelize = require('../libs/sequelize');
+
 class ProductService{
 
   constructor(){
     this.products = [];
     this.generate();
+    this.pool = pool;
+    this.pool.on('error', (err) => console.log(err));
   }
 
   generate(){
@@ -30,15 +36,18 @@ class ProductService{
     this.products.push(newProduct);
     return newProduct;
   }
+
   async find(){
-    return new Promise((resolve, reject) =>{
-      setTimeout(() => {
-        resolve(this.products);
-      }, 3000);
+    //Este codigo es para hacer la conexion por POOL
+    /*const query = 'select * from tasks';
+    const respta = this.pool.query(query);
+    return (await respta).rows;*/
 
-    })
-
+    const query = 'select * from tasks';
+    const [data, metadata] = await sequelize.query(query);
+    return data;
   }
+
   async findOne(id){
     const product = this.products.find(product => product.id === id);
     if(!product){

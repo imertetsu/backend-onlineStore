@@ -9,6 +9,7 @@ const price = Joi.number()
                   .min(10);
 
 const image = Joi.string().uri();
+
 const createProductSchema = Joi.object({
   name: name.required(),
   price: price.required(),
@@ -17,7 +18,8 @@ const createProductSchema = Joi.object({
 
 const updateProductSchema = Joi.object({
   name: name,
-  price: price
+  price: price,
+  image: image
 });
 
 const getProductSchema = Joi.object({
