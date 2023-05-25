@@ -1,5 +1,8 @@
+//esto por defecto hace que lea el archivo .env
 require('dotenv').config();
 
+//para la seguridad de los datos se declaran variables de entorno y
+//utilizarlas en el archivo .env
 const config = {
   env: process.env.NODE_ENV || 'dev',
   port: process.env.PORT || 3000,

@@ -1,6 +1,7 @@
 const { Pool } = require('pg');
-const {config} = require('../config/config');
+const { config } = require('../config/config');
 
+//
 const USER = encodeURIComponent(config.dbUser);
 const PASSWORD = encodeURIComponent(config.dbPassword);
 //El URI en entorno de produccion solamente es el enlace que te
