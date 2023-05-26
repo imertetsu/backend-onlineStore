@@ -1,0 +1,7 @@
+module.exports = {
+  'config': './db/config.js',
+  'models-path': './db/models/',
+  'migrations-path': './db/migrations/',
+  //semillas de datos, es decir una carga de datos para las pruebas unitarias
+  'seeders-path': './db/seeders/'
+}
