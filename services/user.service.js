@@ -1,7 +1,7 @@
 
 const boom = require('boom');
 //const getConnection = require('../libs/postgres');
-
+//se crea un espacio reservado donde se crean todos los modelos, y lo podemos utilizar con nuestros modelos
 const { models } = require('../libs/sequelize');
 
 class UserService{
@@ -11,6 +11,7 @@ class UserService{
   }
 
   async create(data){
+    //aca por ejemplo utilizamos models y luego el modelo que declaramos en nuestro User model
     const newUser = await models.User.create(data);
     return newUser;
   }
@@ -23,6 +24,7 @@ class UserService{
   async findOne(id){
     const user = await models.User.findByPk(id);
     if(!user){
+      //el thow lanza el error, sin eso solo invocas
       throw boom.notFound('user not found');
     }
     return user;

@@ -1,15 +1,8 @@
+
 function logErrors(error, request, response, next){
-  console.log("logErrors");
+  console.log("--------------------------------------------------------------------------------------------------------------logErrors");
   console.error(error);
   next(error);
-}
-
-function errorHandler(error, request, response, next){
-  console.log("errorHandler");
-  response.status(500).json({
-    message: error.message,
-    stack: error.stack
-  });
 }
 
 function boomErrorHandler(error, request, response, next){
@@ -19,7 +12,27 @@ function boomErrorHandler(error, request, response, next){
   }else{
     next(error);
   }
-
 }
 
-module.exports = {logErrors, errorHandler, boomErrorHandler}
+function queryErrorHandler(error, req, res, next){
+  console.log("--------------------------------------------------------------------------------------------------------------");
+  if(error.errors){
+    res.status(500).json({
+      error: error.parent.detail,
+      message: error.errors[0].message
+    });
+  }else{
+    next(error)
+  }
+}
+
+/*function errorHandler(error, request, response, next){
+  console.log("errorHandler", error);
+  response.status(500).json({
+    message: error.message,
+    stack: error.stack
+  });
+  next(error);
+}*/
+
+module.exports = {logErrors, boomErrorHandler, queryErrorHandler}

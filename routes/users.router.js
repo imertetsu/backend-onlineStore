@@ -39,11 +39,14 @@ router.get('/:id', validatorHandler(getUserSchema, 'params'), async (req, res, n
 
 });
 
-router.post('/', validatorHandler(createUserSchema, 'body'), async (req, res)=>{
-  const body = req.body;
-  const user = await service.create(body);
-  res.status(201).json(user);
-
+router.post('/', validatorHandler(createUserSchema, 'body'), async (req, res, next)=>{
+  try{
+    const body = req.body;
+    const user = await service.create(body);
+    res.status(201).json(user);
+  }catch(error){
+    next(error);
+  }
 });
 
 router.patch('/:id',
@@ -63,7 +66,7 @@ router.patch('/:id',
 
 router.put('/:id',
   validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'), async (req, res)=>{
+  validatorHandler(updateUserSchema, 'body'), async (req, res, next)=>{
   let user;
   try {
     const id = req.params.id;
@@ -72,7 +75,7 @@ router.put('/:id',
     user = await service.update(id, body);
     res.json(user);
   } catch (error) {
-    res.status(404).json(user);
+    next(error);
   }
 });
 
