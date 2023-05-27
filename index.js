@@ -2,7 +2,7 @@ const express = require('express');
 const routerApi = require('./routes');
 const cors = require('cors');
 
-const {logErrors, boomErrorHandler, queryErrorHandler} = require('./middlewares/error.handler.js');
+const {logErrors, boomErrorHandler, queryErrorHandler, foreignKeyErrorHandler } = require('./middlewares/error.handler.js');
 //const randomName = faker.name.findName();
 
 const app = express();
@@ -35,6 +35,7 @@ routerApi(app);
 app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(queryErrorHandler);
+app.use(foreignKeyErrorHandler);
 
 //--------------------------------------------------------------------------
 /*app.listen(port, () =>{

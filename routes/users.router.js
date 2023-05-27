@@ -32,11 +32,9 @@ router.get('/:id', validatorHandler(getUserSchema, 'params'), async (req, res, n
     /*else{
       res.status(400).json(product);
     }*/
-
   } catch (error) {
     next(error);
   }
-
 });
 
 router.post('/', validatorHandler(createUserSchema, 'body'), async (req, res, next)=>{

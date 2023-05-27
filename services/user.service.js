@@ -1,4 +1,3 @@
-
 const boom = require('boom');
 //const getConnection = require('../libs/postgres');
 //se crea un espacio reservado donde se crean todos los modelos, y lo podemos utilizar con nuestros modelos
@@ -17,7 +16,9 @@ class UserService{
   }
 
   async find(){
-    const rspt = await models.User.findAll();
+    const rspt = await models.User.findAll({
+      include: ['customer']
+    });
     return rspt;
 
   }
