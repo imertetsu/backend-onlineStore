@@ -6,79 +6,75 @@ const {createProductSchema, updateProductSchema, getProductSchema} = require('..
 const router = express.Router();
 const service = new ProductService();
 
-
-router.get('/', async (req, res) =>{
-  const products = await service.find();
-  res.json(products);
+router.get('/', async (req, res, next) =>{
+  try {
+    const products = await service.find();
+    res.json(products);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get('/filter', (req, res) =>{
   res.send('yo soy un filter')
 });
 
-router.get('/:productID', validatorHandler(getProductSchema, 'params'), async (req, res, next) =>{
+router.get('/:id', validatorHandler(getProductSchema, 'params'), async (req, res, next) =>{
   //esta es una forma de declarar de ECMAJS donde nos dice que de todo lo que
   //nos vaya a devolver req.params solo nos interesa id
   //const {id} = req.params;
   try {
-    const id = req.params.productID;
+    const id = req.params.id;
     const product = await service.findOne(id);
     res.json(product);
-    /*else{
-      res.status(400).json(product);
-    }*/
-
   } catch (error) {
     next(error);
   }
-
 });
 
-router.post('/', validatorHandler(createProductSchema, 'body'), async (req, res)=>{
-  const body = req.body;
-  const product = await service.create(body);
-  res.status(201).json(product);
-
+router.post('/', validatorHandler(createProductSchema, 'body'), async (req, res, next)=>{
+  try {
+    const body = req.body;
+    const product = await service.create(body);
+    res.status(201).json(product);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.patch('/:id',
   validatorHandler(getProductSchema, 'params'),
-  validatorHandler(updateProductSchema, 'body'), async (req, res)=>{
-  const id = req.params.id;
-  const body = req.body;
-  //products.push(body);
-  res.json({
-    message: "patched",
-    data: body,
-    id
-  });
+  validatorHandler(updateProductSchema, 'body'), async (req, res, next)=>{
+    try {
+      const id = req.params.id;
+      const body = req.body;
+      const product = await service.update(id, body);
+      res.json(product);
+    } catch (error) {
+      next(error)
+    }
 });
-
 
 router.put('/:id',
   validatorHandler(getProductSchema, 'params'),
-  validatorHandler(updateProductSchema, 'body'), async (req, res)=>{
-  let product;
+  validatorHandler(updateProductSchema, 'body'), async (req, res, next)=>{
   try {
     const id = req.params.id;
     const body = req.body;
-    console.log(body.name);
-    product = await service.update(id, body);
+    const product = await service.update(id, body);
     res.json(product);
   } catch (error) {
-    res.status(404).json(product);
+    next(error);
   }
 });
 
-
-router.delete('/:id', async (req, res)=>{
-  const id = req.params.id;
-  //const body = req.body;
-  const products = await service.delete(id);
-  if(products.message === "deleted"){
-    res.json(products);
-  }else{
-    res.status(400).json(products);
+router.delete('/:id', validatorHandler(getProductSchema, 'params'), async (req, res, next)=>{
+  try {
+    const id = req.params.id;
+    const deleteProduct = await service.delete(id);
+    res.json(deleteProduct);
+  } catch (error) {
+    next(error);
   }
 });
 

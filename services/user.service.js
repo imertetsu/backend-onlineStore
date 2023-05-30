@@ -1,7 +1,8 @@
 const boom = require('boom');
 //const getConnection = require('../libs/postgres');
 //se crea un espacio reservado donde se crean todos los modelos, y lo podemos utilizar con nuestros modelos
-const { models } = require('../libs/sequelize');
+//const { models } = require('../libs/sequelize');
+const  { models } = require('../libs/sequelize');
 
 class UserService{
 

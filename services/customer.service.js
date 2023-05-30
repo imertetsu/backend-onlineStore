@@ -26,7 +26,7 @@ class CustomerService {
     const customer = await models.Customer.findByPk(id);
     if(!customer){
       //el thow lanza el error, sin eso solo invocas
-      throw boom.notFound('user not found');
+      throw boom.notFound('customer not found');
     }
     return customer;
   }

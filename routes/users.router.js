@@ -7,7 +7,7 @@ const router = express.Router();
 const service = new UserService();
 
 //se coloca esto en el end point => users?limit=10&offset=200
-router.get('/', async (req, res) =>{
+router.get('/', async (req, res, next) =>{
   /*const {limit, offset} = req.query;
   if(limit && offset){
     res.json({
@@ -17,8 +17,12 @@ router.get('/', async (req, res) =>{
   }else{
     res.send('No existen parametros');
   }*/
-  const users = await service.find();
-  res.json(users);
+  try {
+    const users = await service.find();
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get('/:id', validatorHandler(getUserSchema, 'params'), async (req, res, next) =>{
@@ -82,7 +86,7 @@ router.delete('/:id', async (req, res, next)=>{
   try {
     const id = req.params.id;
     //const body = req.body;
-    const users = await service.delete(id);
+    await service.delete(id);
     res.json({id});
   } catch (error) {
     next(error);

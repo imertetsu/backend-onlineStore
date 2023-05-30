@@ -17,8 +17,7 @@ function queryErrorHandler(error, req, res, next){
   console.log("--------------------------------------------------------------------------------------------------------------");
   if(error.errors){
     res.status(500).json({
-      error: error.parent.detail,
-      message: error.errors[0].message
+      error: error.errors,
     });
   }else{
     next(error)
@@ -35,6 +34,7 @@ function foreignKeyErrorHandler(error, req, res, next){
     next(error)
   }
 }
+
 
 /*function errorHandler(error, request, response, next){
   console.log("errorHandler", error);

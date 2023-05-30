@@ -49,7 +49,9 @@ class Customer extends Model {
   static assocciate(models){
     //assocciate
     //tiene una relacion con User     User (has)-----> <--(belongsTo) Customers    User has Customers, Customers belongsTo User
-    this.belongsTo(models.User, { as: 'user'});
+    this.belongsTo(models.User, {
+      //as nos sirve como un alias para poder usarlo
+      as: 'user'});
   }
   static config(sequelize){
     return {
