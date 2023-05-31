@@ -1,4 +1,5 @@
 const boom = require('boom');
+const bcrypt = require('bcrypt');
 //const getConnection = require('../libs/postgres');
 //se crea un espacio reservado donde se crean todos los modelos, y lo podemos utilizar con nuestros modelos
 //const { models } = require('../libs/sequelize');
@@ -12,7 +13,14 @@ class UserService{
 
   async create(data){
     //aca por ejemplo utilizamos models y luego el modelo que declaramos en nuestro User model
-    const newUser = await models.User.create(data);
+    const hash = await bcrypt.hash(data.password, 5);
+    const newUser = await models.User.create({
+      //desestructuramos data y modificamos password
+      ...data,
+      password: hash
+    });
+    //funcion JS con esto excluimos el password para que no se muestre
+    delete newUser.dataValues.password;
     return newUser;
   }
 
@@ -21,8 +29,16 @@ class UserService{
       include: ['customer']
     });
     return rspt;
-
   }
+  async findByEmail(email){
+    const rspt = await models.User.findOne({
+      where: {
+        email: email
+      }
+    });
+    return rspt;
+  }
+
   async findOne(id){
     const user = await models.User.findByPk(id);
     if(!user){

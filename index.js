@@ -2,7 +2,10 @@ const express = require('express');
 const routerApi = require('./routes');
 const cors = require('cors');
 
-const {logErrors, boomErrorHandler, queryErrorHandler, foreignKeyErrorHandler } = require('./middlewares/error.handler.js');
+const {logErrors, boomErrorHandler, queryErrorHandler,
+      foreignKeyErrorHandler, bodyErrorHandler } = require('./middlewares/error.handler.js');
+const { checkApiKey } = require('./middlewares/auth.handler');
+const passport = require('./utils/auth/index');
 //const randomName = faker.name.findName();
 
 const app = express();
@@ -21,6 +24,9 @@ const options = {
   }
 }
 app.use(cors(options));
+//aca simplemente invocamos la variable de passport para el uso del local passport
+app.use(passport.initialize());
+
 
 
 //este es un Middleware para poder recibir un JSON
@@ -30,12 +36,17 @@ app.get('/', (req, res) =>{
   res.send('hola mi server en express')
 });
 
+app.get('/nueva-ruta',checkApiKey, (req, res) => {
+  res.send('hola soy nueva ruta');
+})
+
 routerApi(app);
 
 app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(queryErrorHandler);
 app.use(foreignKeyErrorHandler);
+app.use(bodyErrorHandler);
 
 //--------------------------------------------------------------------------
 /*app.listen(port, () =>{

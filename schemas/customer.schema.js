@@ -5,7 +5,8 @@ const name = Joi.string().max(25);
 const lastName = Joi.string().max(25);
 const phoneNumber = Joi.number().integer();
 const userId = Joi.number().integer();
-const { createUserSchema } = require('./user.schema');
+const email = Joi.string().max(25).email();
+const password = Joi.string().min(4);
 
 //const createdAt = Joi.string().;
 
@@ -13,7 +14,10 @@ const createCustomerSchema = Joi.object({
   name: name.required(),
   lastName: lastName.required(),
   phoneNumber: phoneNumber.required(),
-  user: createUserSchema
+  user: {
+    email: email.required(),
+    password: password.required()
+  },
 });
 
 const updateCustomerSchema = Joi.object({

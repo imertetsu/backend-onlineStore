@@ -1,5 +1,6 @@
 const boom = require('boom');
 const { models } = require('../libs/sequelize');
+const bcrypt = require('bcrypt');
 
 class CustomerService {
 
@@ -7,10 +8,18 @@ class CustomerService {
 
   async create(data){
     //aca por ejemplo utilizamos models y luego el modelo que declaramos en nuestro Customer model
-    const newCustomer = await models.Customer.create(data, {
+    const hash = await bcrypt.hash(data.user.password,5);
+    const newCustomer = await models.Customer.create({
+      ...data,
+      user: {
+        ...data.user,
+        password: hash
+      }}, {
       //con esto tambien podemos crear el usuario dentro del customer
       include: ['user']
     });
+    //con esto excluimos el password para que no se muestre
+    delete newCustomer.dataValues.user.dataValues.password;
     return newCustomer;
   }
 

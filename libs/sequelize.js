@@ -2,6 +2,7 @@ const { Sequelize } = require('sequelize');
 const { config } = require('../config/config');
 const setupModels = require('../db/models/index');
 
+//aseguras de que cualquier carácter especial en ese valor sea codificado correctamente antes de ser utilizado en una URL.
 const USER = encodeURIComponent(config.dbUser);
 const PASSWORD = encodeURIComponent(config.dbPassword);
 //const URI =`postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;

@@ -35,6 +35,13 @@ function foreignKeyErrorHandler(error, req, res, next){
   }
 }
 
+function bodyErrorHandler(error, req, res, next){
+  if(error.expose){
+    res.status(error.statusCode).json({
+      error: error.type
+    });
+  }
+}
 
 /*function errorHandler(error, request, response, next){
   console.log("errorHandler", error);
@@ -45,4 +52,4 @@ function foreignKeyErrorHandler(error, req, res, next){
   next(error);
 }*/
 
-module.exports = {logErrors, boomErrorHandler, queryErrorHandler, foreignKeyErrorHandler}
+module.exports = {logErrors, boomErrorHandler, queryErrorHandler, foreignKeyErrorHandler, bodyErrorHandler}
