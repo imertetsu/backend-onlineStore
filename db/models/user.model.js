@@ -35,7 +35,7 @@ const UserSchema = {
 }
 
 class User extends Model{
-  static assocciate(models){
+  static associate(models){
     /*tiene una relacion con Customer, pero cuando hacemos la relacion con hasOne significa que la relacion esta del
     lado del customer entonces hay que indicar la foreign key para encontrar, es decir en la tabla customer hay un userId*/
     this.hasOne(models.Customer, {

@@ -3,6 +3,7 @@ const boom = require('boom');
 //const pool = require('../libs/postgres.pool');
 //const sequelize = require('../libs/sequelize');
 const { models } = require('../libs/sequelize');
+const { Op } = require("sequelize");
 
 class ProductService{
 
@@ -27,7 +28,7 @@ class ProductService{
     return newProduct;
   }
 
-  async find(){
+  async find(query){
     //Este codigo es para hacer la conexion por POOL
     /*const query = 'select * from tasks';
     const respta = this.pool.query(query);
@@ -36,9 +37,27 @@ class ProductService{
     /*const query = 'select * from tasks';
     const [data, metadata] = await sequelize.query(query);
     return data;*/
-    const products = await models.Product.findAll({
+    const options = {
       include: ['category']
-    });
+    };
+    const { limit, offset, price, price_min, price_max } = query;
+    if(limit && offset){
+      options.limit = limit;
+      options.offset = offset;
+    }
+    if(price){
+      options.where = {
+        price: price
+      };
+    }
+    if(price_min && price_max){
+      options.where = {
+        price: {
+          [Op.between]: [price_min, price_max]
+        }
+      };
+    }
+    const products = await models.Product.findAll(options);
     return products;
   }
 

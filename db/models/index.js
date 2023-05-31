@@ -3,6 +3,8 @@ const { User, UserSchema } = require('./user.model');
 const { Customer, CustomerSchema } = require('./customer.model');
 const { Category, CategorySchema } = require('./category.model');
 const { Product, ProductSchema } = require('./product.model');
+const { Order, OrderSchema } = require('./order.model');
+const { OrderProduct, OrderProductSchema } = require('./order-product.model');
 
 //esta funcion tambien recibe la conexion 'sequelize'
 function setupModels(sequelize){
@@ -11,12 +13,15 @@ function setupModels(sequelize){
   Customer.init(CustomerSchema, Customer.config(sequelize));
   Category.init(CategorySchema, Category.config(sequelize));
   Product.init(ProductSchema, Product.config(sequelize));
+  Order.init(OrderSchema, Order.config(sequelize));
+  OrderProduct.init(OrderProductSchema, OrderProduct.config(sequelize));
 
   //con esto estamos ejecutando la asociacion de ambos. EL ORDEN SI IMPORTA!
-  User.assocciate(sequelize.models);
-  Customer.assocciate(sequelize.models);
-  Category.assocciate(sequelize.models);
-  Product.assocciate(sequelize.models);
+  User.associate(sequelize.models);
+  Customer.associate(sequelize.models);
+  Category.associate(sequelize.models);
+  Product.associate(sequelize.models);
+  Order.associate(sequelize.models);
 }
 
 module.exports = setupModels;
