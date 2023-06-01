@@ -31,6 +31,7 @@ router.get('/:id', validatorHandler(getCategorySchema, 'params'), async (req, re
 });
 
 router.post('/',
+  //aca le decimos que necesita la autenticacion por token, entonces para postear categorias necesitas el token
   passport.authenticate('jwt', { session: false }),
   //de esta forma se utilizan los middlewares
   checkRoles(['admin', 'customer']),

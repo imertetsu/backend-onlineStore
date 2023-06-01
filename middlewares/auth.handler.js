@@ -24,7 +24,7 @@ function checkAdminRole(req, res, next){
 function checkRoles(roles){
   return (req, res, next) => {
     const user = req.user;
-    console.log(user);
+    //console.log(user);
     //aca verificamos que en el arreglo de roles incluya el rol del usuario
     if(roles.includes(user.role)){
       next();
