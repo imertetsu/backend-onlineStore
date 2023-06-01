@@ -7,6 +7,7 @@ const router = express.Router();
 const service = new CustomerService();
 
 router.get('/', async(req, res, next) => {
+
   try{
     const customers = await service.find();
     res.json(customers);

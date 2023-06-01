@@ -4,7 +4,7 @@ const cors = require('cors');
 
 const {logErrors, boomErrorHandler, queryErrorHandler,
       foreignKeyErrorHandler, bodyErrorHandler } = require('./middlewares/error.handler.js');
-const { checkApiKey } = require('./middlewares/auth.handler');
+const { checkApiKey, checkRoles } = require('./middlewares/auth.handler');
 const passport = require('./utils/auth/index');
 //const randomName = faker.name.findName();
 
@@ -47,6 +47,7 @@ app.use(boomErrorHandler);
 app.use(queryErrorHandler);
 app.use(foreignKeyErrorHandler);
 app.use(bodyErrorHandler);
+app.use(checkRoles);
 
 //--------------------------------------------------------------------------
 /*app.listen(port, () =>{

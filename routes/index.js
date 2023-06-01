@@ -18,4 +18,5 @@ function routerApi(app){
   router.use('/auth', authRouter);
 }
 
+/*router.use('/categories', passport.authenticate('jwt', { session: false }), categoriesRouter); */
 module.exports = routerApi;
