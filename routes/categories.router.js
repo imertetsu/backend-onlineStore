@@ -34,7 +34,7 @@ router.post('/',
   //aca le decimos que necesita la autenticacion por token, entonces para postear categorias necesitas el token
   passport.authenticate('jwt', { session: false }),
   //de esta forma se utilizan los middlewares
-  checkRoles(['admin', 'customer']),
+  checkRoles(['admin']),
   validatorHandler(createCategorySchema, 'body'),
   async (req, res, next)=>{
   try {
@@ -47,6 +47,9 @@ router.post('/',
 });
 
 router.patch('/:id',
+  passport.authenticate('jwt', { session: false }),
+  //de esta forma se utilizan los middlewares
+  checkRoles(['admin']),
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'), async (req, res, next)=>{
     try {
@@ -60,6 +63,9 @@ router.patch('/:id',
 });
 
 router.put('/:id',
+  passport.authenticate('jwt', { session: false }),
+  //de esta forma se utilizan los middlewares
+  checkRoles(['admin']),
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'), async (req, res, next)=>{
   let product;
@@ -73,7 +79,10 @@ router.put('/:id',
   }
 });
 
-router.delete('/:id', validatorHandler(getCategorySchema, 'params'), async (req, res, next)=>{
+router.delete('/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles(['admin']),
+  validatorHandler(getCategorySchema, 'params'), async (req, res, next)=>{
   try {
     const id = req.params.id;
     const deleteCategory = await service.delete(id);

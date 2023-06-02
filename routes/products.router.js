@@ -2,11 +2,15 @@ const express = require('express');
 const ProductService = require('../services/products.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const {createProductSchema, updateProductSchema, getProductSchema, queryProductSchema} = require('../schemas/product.schema');
+const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
 
 const router = express.Router();
 const service = new ProductService();
 
-router.get('/', validatorHandler(queryProductSchema, 'query'), async (req, res, next) =>{
+router.get('/',
+  validatorHandler(queryProductSchema, 'query'),
+  async (req, res, next) =>{
   try {
     const products = await service.find(req.query);
     res.json(products);
@@ -32,7 +36,11 @@ router.get('/:id', validatorHandler(getProductSchema, 'params'), async (req, res
   }
 });
 
-router.post('/', validatorHandler(createProductSchema, 'body'), async (req, res, next)=>{
+router.post('/',
+  passport.authenticate('jwt', { session:false }),
+  checkRoles(['admin', 'customer']),
+  validatorHandler(createProductSchema, 'body'),
+  async (req, res, next)=>{
   try {
     const body = req.body;
     const product = await service.create(body);
@@ -43,6 +51,8 @@ router.post('/', validatorHandler(createProductSchema, 'body'), async (req, res,
 });
 
 router.patch('/:id',
+  passport.authenticate('jwt', { session:false }),
+  checkRoles(['admin', 'customer']),
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'), async (req, res, next)=>{
     try {
@@ -56,6 +66,8 @@ router.patch('/:id',
 });
 
 router.put('/:id',
+  passport.authenticate('jwt', { session:false }),
+  checkRoles(['admin', 'customer']),
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'), async (req, res, next)=>{
   try {
@@ -68,7 +80,11 @@ router.put('/:id',
   }
 });
 
-router.delete('/:id', validatorHandler(getProductSchema, 'params'), async (req, res, next)=>{
+router.delete('/:id',
+  passport.authenticate('jwt', { session:false }),
+  checkRoles(['admin', 'customer']),
+  validatorHandler(getProductSchema, 'params'),
+  async (req, res, next)=>{
   try {
     const id = req.params.id;
     const deleteProduct = await service.delete(id);

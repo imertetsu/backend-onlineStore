@@ -2,7 +2,7 @@ const express = require('express');
 
 const OrderService = require('../services/order.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getOrderSchema, createOrderSchema, addItemSchema } = require('../schemas/order.schema');
+const { getOrderSchema, addItemSchema } = require('../schemas/order.schema');
 const passport = require('passport');
 const { checkRoles } = require('../middlewares/auth.handler');
 const boom =require('boom');

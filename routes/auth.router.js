@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const AuthService = require('../services/auth.service');
-const jwt = require('jsonwebtoken');
 //const { checkApiKey } = require('../middlewares/auth.handler');
 const service = new AuthService();
 
@@ -21,6 +20,7 @@ router.post('/login',
 });
 
 router.post('/recovery',
+  passport.authenticate('jwt', { session: false }),
   async(req, res, next)=>{
     try {
       const { email } = req.body;

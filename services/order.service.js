@@ -35,14 +35,17 @@ class OrderService {
         '$customer.user.id$': userId
       }
     });
+
+    orders.map(order => {
+      delete order.dataValues.customer.dataValues.user.dataValues.password;
+    });
+    console.log(orders);
     return orders;
   }
 
   async getCustomerId(userId){
     const orders = await this.findByUser(userId);
     const customerId = await orders[0].dataValues.customerId;
-
-    console.log("Este es el customer ID "+ customerId);
     return customerId;
   }
 
