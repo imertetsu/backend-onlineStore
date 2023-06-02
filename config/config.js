@@ -12,7 +12,10 @@ const config = {
   dbName: process.env.DB_NAME,
   dbPort: process.env.DB_PORT,
   apiKey: process.env.API_KEY,
-  signature: process.env.SIGNATURE
+  signature: process.env.SIGNATURE,
+  signatureRecovery: process.env.SIGNATURE_RECOVERY,
+  emailUser: process.env.EMAIL_USER,
+  emailPassword: process.env.EMAIL_PASSWORD
 }
 
 module.exports = { config };

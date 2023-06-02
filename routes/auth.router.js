@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const AuthService = require('../services/auth.service');
 const jwt = require('jsonwebtoken');
-const { config } = require('../config/config');
 //const { checkApiKey } = require('../middlewares/auth.handler');
-
+const service = new AuthService();
 
 //A la hora de hacer login generamos el token
 router.post('/login',
@@ -13,15 +13,31 @@ router.post('/login',
   try {
     //res.redirect('/');
     const user = req.user;
-    const payload = {
-      sub: user.id,
-      role: user.role
-    };
-    const token = jwt.sign(payload, config.signature);
-    res.json({
-      user,
-      token: token
-    });
+    const respt = service.signToken(user);
+    res.json(respt);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/recovery',
+  async(req, res, next)=>{
+    try {
+      const { email } = req.body;
+      const rta = await service.sendMailRecovery(email);
+      res.json(rta);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+router.post('/change-password',
+  passport.authenticate('jwt', { session: false }),
+  async(req, res, next) =>{
+  try {
+    const { token, newPassword } = req.body;
+    const rpta = await service.changePassword(token, newPassword);
+    res.json(rpta);
   } catch (error) {
     next(error);
   }
