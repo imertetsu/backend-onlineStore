@@ -32,7 +32,9 @@ class CustomerService {
     return allCustomers;
   }
   async findOne(id){
-    const customer = await models.Customer.findByPk(id);
+    const customer = await models.Customer.findByPk(id, {
+      include: ['user']
+    });
     if(!customer){
       //el thow lanza el error, sin eso solo invocas
       throw boom.notFound('customer not found');

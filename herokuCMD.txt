@@ -1,0 +1,11 @@
+git checkout -b production
+git remote -v
+heroku git:remote -a "id del proyecto"
+git remote -v
+heroku run npm run migrations:delete --> para eliminar las migraciones anteriores y solo tener una estructurada
+
+heroku config:set API_KEY=123124 SIGNATURE=rjlkasjf --> asi se configura, notienes que configurar la DBURL ni PORT ya que heroku se encarga de eso
+
+git push heroku production:main
+
+heroku run npm run migrations:run --> para correr las migraciones en heroku

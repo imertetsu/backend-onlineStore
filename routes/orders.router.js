@@ -20,7 +20,7 @@ router.get('/',
   } catch (error) {
     next(error);
   }
-})
+});
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),

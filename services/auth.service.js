@@ -22,13 +22,12 @@ class AuthService {
     delete user.dataValues.password;
     return user;
   }
-
   signToken(user) {
     const payload = {
       sub: user.id,
       role: user.role,
     };
-    const token = jwt.sign(payload, config.signature);
+    const token = jwt.sign(payload, config.signature, { expiresIn: '1h' });
     return {
       user,
       token,

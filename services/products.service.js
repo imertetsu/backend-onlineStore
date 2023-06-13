@@ -38,7 +38,6 @@ class ProductService{
     const [data, metadata] = await sequelize.query(query);
     return data;*/
     const options = {
-      include: ['category']
     };
     const { limit, offset, price, price_min, price_max } = query;
     if(limit && offset){

@@ -28,6 +28,9 @@ class UserService{
     const rspt = await models.User.findAll({
       include: ['customer']
     });
+    rspt.map(user => {
+      delete user.dataValues.password;
+    });
     return rspt;
   }
   async findByEmail(email){
@@ -40,11 +43,14 @@ class UserService{
   }
 
   async findOne(id){
-    const user = await models.User.findByPk(id);
+    const user = await models.User.findByPk(id, {
+      include: ['customer']
+    });
     if(!user){
       //el thow lanza el error, sin eso solo invocas
       throw boom.notFound('user not found');
     }
+    delete user.dataValues.password;
     return user;
   }
   async update(id, changes){
