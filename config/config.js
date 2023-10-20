@@ -15,7 +15,9 @@ const config = {
   signature: process.env.SIGNATURE,
   signatureRecovery: process.env.SIGNATURE_RECOVERY,
   emailUser: process.env.EMAIL_USER,
-  emailPassword: process.env.EMAIL_PASSWORD
+  emailPassword: process.env.EMAIL_PASSWORD,
+  flycast: process.env.FLYCAST,
+  databaseUrl: process.env.DATABASE_URL
 }
 
 module.exports = { config };
