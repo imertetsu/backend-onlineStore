@@ -9,7 +9,7 @@ const passport = require('./utils/auth/index');
 //const randomName = faker.name.findName();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 //const port = process.env.PORT || 3000;
 
 
@@ -54,5 +54,5 @@ app.use(checkRoles);
   console.log("mi port " + port);
 });*/
 
-app.listen(port, () => console.log(`mi port ${port}`));
+app.listen(port, '0.0.0.0', () => console.log(`mi port ${port}`));
 

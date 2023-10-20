@@ -9,10 +9,13 @@ const PASSWORD = encodeURIComponent(config.dbPassword);
 
 //const sequelize = new Sequelize(URI);
 
-const sequelize = new Sequelize(config.dbName, USER, PASSWORD, {
+/*const sequelize = new Sequelize(config.dbName, USER, PASSWORD, {
   host: config.dbHost,
   port: config.dbPort,
   dialect: 'postgres'
+});*/
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
 });
 setupModels(sequelize);
 //coge los modelos y crea la estructura de la DB es decir crea las tablas y lo que esta configurado
