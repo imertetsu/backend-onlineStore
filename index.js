@@ -10,7 +10,8 @@ const passport = require('./utils/auth/index');
 
 const app = express();
 const port = process.env.PORT || 3000;
-//const port = process.env.PORT || 3000;
+
+const { swaggerDocs } = require('./utils/swagger');
 
 
 const whiteList = ['http://localhost:8080', 'http://127.0.0.1:5500', 'http://localhost:5500', 'http://localhost:4200'];
@@ -54,5 +55,9 @@ app.use(checkRoles);
   console.log("mi port " + port);
 });*/
 
-app.listen(port, '0.0.0.0', () => console.log(`mi port ${port}`));
+app.listen(port, '0.0.0.0', () => {
+  console.log(`mi port ${port}`);
+  //swaggerDocs(app, port);
+});
+
 
