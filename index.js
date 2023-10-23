@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000;
 const { swaggerDocs } = require('./utils/swagger');
 
 
-const whiteList = ['http://localhost:8080', 'http://127.0.0.1:5500', 'http://localhost:5500', 'http://localhost:4200'];
+const whiteList = ['http://localhost:8080', 'http://127.0.0.1:5500', 'http://localhost:5500', 'http://localhost:4200','http://localhost:3000'];
 const options = {
   origin: (origin, callback) =>{
     if(whiteList.includes(origin)|| !origin){
@@ -55,9 +55,8 @@ app.use(checkRoles);
   console.log("mi port " + port);
 });*/
 
-app.listen(port, '0.0.0.0', () => {
+
+app.listen(port, () => {
   console.log(`mi port ${port}`);
-  //swaggerDocs(app, port);
+  swaggerDocs(app, port);
 });
-
-
