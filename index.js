@@ -34,7 +34,10 @@ app.use(passport.initialize());
 app.use(express.json());
 
 app.get('/', (req, res) =>{
-  res.send('hola mi server en express')
+  res.write('Availables routes to make GET, POST, PUT, DELETE\n');
+  res.write('https://backendstore.fly.dev/api/v1/products\n');
+  res.write('https://backendstore.fly.dev/api/v1/categories\n');
+  res.end();
 });
 
 app.get('/nueva-ruta',checkApiKey, (req, res) => {
