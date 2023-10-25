@@ -56,7 +56,7 @@ app.use(checkRoles);
 });*/
 
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0',() => {
   console.log(`mi port ${port}`);
-  swaggerDocs(app, port);
+  //swaggerDocs(app, port);
 });
